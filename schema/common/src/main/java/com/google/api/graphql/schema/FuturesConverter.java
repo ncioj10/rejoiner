@@ -20,6 +20,7 @@ import com.google.api.core.ApiFutures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import graphql.execution.instrumentation.Instrumentation;
+import graphql.execution.instrumentation.InstrumentationState;
 import graphql.execution.instrumentation.SimpleInstrumentation;
 import graphql.execution.instrumentation.parameters.InstrumentationFieldFetchParameters;
 import graphql.schema.DataFetcher;
@@ -50,19 +51,18 @@ public final class FuturesConverter {
 
   public static Instrumentation apiFutureInstrumentation() {
     return new SimpleInstrumentation() {
-      @Override
-      public DataFetcher<?> instrumentDataFetcher(
-          DataFetcher<?> dataFetcher, InstrumentationFieldFetchParameters parameters) {
-        return (DataFetcher<Object>)
-            dataFetchingEnvironment -> {
-              Object data = dataFetcher.get(dataFetchingEnvironment);
-              if (data instanceof ApiFuture) {
-                return FutureConverter.toCompletableFuture(
-                    apiFutureToListenableFuture((ApiFuture<?>) data));
-              }
-              return data;
-            };
-      }
+        @Override
+        public DataFetcher<?> instrumentDataFetcher(DataFetcher<?> dataFetcher, InstrumentationFieldFetchParameters parameters, InstrumentationState state) {
+            return (DataFetcher<Object>)
+                    dataFetchingEnvironment -> {
+                        Object data = dataFetcher.get(dataFetchingEnvironment);
+                        if (data instanceof ApiFuture) {
+                            return FutureConverter.toCompletableFuture(
+                                    apiFutureToListenableFuture((ApiFuture<?>) data));
+                        }
+                        return data;
+                    };
+        }
     };
   }
 }
