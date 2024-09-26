@@ -23,12 +23,12 @@
   <parent>
     <groupId>com.google.api.graphql</groupId>
     <artifactId>rejoiner-parent</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>0.7.0-SNAPSHOT</version>
   </parent>
   <groupId>com.google.api.graphql</groupId>
   <artifactId>schema-parent</artifactId>
   <name>Schema Parent</name>
-  <version>0.6.0-SNAPSHOT</version>
+  <version>0.7.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
     <module>common</module>

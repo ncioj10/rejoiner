@@ -70,6 +70,7 @@ public final class TypeTest {
         .isEqualTo(Scalars.GraphQLInt);
   }
 
+  @SuppressWarnings("CheckReturnValue")
   @Test(expected = AssertException.class)
   public void addFieldShouldThrowErrorIfFieldExists() throws Exception {
     Type.find("project")
@@ -81,6 +82,7 @@ public final class TypeTest {
         .apply(OBJECT_TYPE);
   }
 
+  @SuppressWarnings("CheckReturnValue")
   @Test
   public void removeFieldShouldIgnoreUnknownField() throws Exception {
     Type.find("project").removeField("unknown_field").apply(OBJECT_TYPE);

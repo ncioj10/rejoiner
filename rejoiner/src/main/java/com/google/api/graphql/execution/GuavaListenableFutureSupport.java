@@ -19,6 +19,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 import graphql.execution.instrumentation.Instrumentation;
+import graphql.execution.instrumentation.InstrumentationState;
 import graphql.execution.instrumentation.SimpleInstrumentation;
 import graphql.execution.instrumentation.parameters.InstrumentationFieldFetchParameters;
 import graphql.schema.DataFetcher;
@@ -51,34 +52,33 @@ public final class GuavaListenableFutureSupport {
    */
   public static Instrumentation listenableFutureInstrumentation(Executor executor) {
     return new SimpleInstrumentation() {
-      @Override
-      public DataFetcher<?> instrumentDataFetcher(
-          DataFetcher<?> dataFetcher, InstrumentationFieldFetchParameters parameters) {
-        return (DataFetcher<Object>)
-            dataFetchingEnvironment -> {
-              Object data = dataFetcher.get(dataFetchingEnvironment);
-              if (data instanceof ListenableFuture) {
-                ListenableFuture<Object> listenableFuture = (ListenableFuture<Object>) data;
-                CompletableFuture<Object> completableFuture = new CompletableFuture<>();
-                Futures.addCallback(
-                    listenableFuture,
-                    new FutureCallback<Object>() {
-                      @Override
-                      public void onSuccess(Object result) {
-                        completableFuture.complete(result);
-                      }
+        @Override
+        public DataFetcher<?> instrumentDataFetcher(DataFetcher<?> dataFetcher, InstrumentationFieldFetchParameters parameters, InstrumentationState state) {
+            return (DataFetcher<Object>)
+                    dataFetchingEnvironment -> {
+                        Object data = dataFetcher.get(dataFetchingEnvironment);
+                        if (data instanceof ListenableFuture) {
+                            ListenableFuture<Object> listenableFuture = (ListenableFuture<Object>) data;
+                            CompletableFuture<Object> completableFuture = new CompletableFuture<>();
+                            Futures.addCallback(
+                                    listenableFuture,
+                                    new FutureCallback<Object>() {
+                                        @Override
+                                        public void onSuccess(Object result) {
+                                            completableFuture.complete(result);
+                                        }
 
-                      @Override
-                      public void onFailure(Throwable t) {
-                        completableFuture.completeExceptionally(t);
-                      }
-                    },
-                    executor);
-                return completableFuture;
-              }
-              return data;
-            };
-      }
+                                        @Override
+                                        public void onFailure(Throwable t) {
+                                            completableFuture.completeExceptionally(t);
+                                        }
+                                    },
+                                    executor);
+                            return completableFuture;
+                        }
+                        return data;
+                    };
+        }
     };
   }
 }

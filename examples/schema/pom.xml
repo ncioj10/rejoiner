@@ -8,11 +8,11 @@
   <parent>
     <groupId>com.google.api.graphql</groupId>
     <artifactId>examples</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>0.7.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>example-schema</artifactId>
-  <version>0.6.0-SNAPSHOT</version>
+  <version>0.7.0-SNAPSHOT</version>
   <name>Example - Schema</name>
   <packaging>war</packaging>
 
@@ -41,27 +41,27 @@
     <dependency>
       <groupId>com.google.api.graphql</groupId>
       <artifactId>schema-common</artifactId>
-      <version>0.6.0-SNAPSHOT</version>
+      <version>0.7.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.google.api.graphql</groupId>
       <artifactId>schema-cloud-container</artifactId>
-      <version>0.6.0-SNAPSHOT</version>
+      <version>0.7.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.google.api.graphql</groupId>
       <artifactId>schema-firestore</artifactId>
-      <version>0.6.0-SNAPSHOT</version>
+      <version>0.7.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.google.api.graphql</groupId>
       <artifactId>rejoiner-grpc</artifactId>
-      <version>0.6.0-SNAPSHOT</version>
+      <version>0.7.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.google.api.graphql</groupId>
       <artifactId>rejoiner-guice</artifactId>
-      <version>0.6.0-SNAPSHOT</version>
+      <version>0.7.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.grpc</groupId>
